@@ -29,20 +29,45 @@ func StringSum(inp string) (output string, err error) {
 	if input == "" {
 		return "", errorEmptyInput
 	}
-	var firstOperand, secondOperand int
+	var firstOperand, secondOperand, result int
+	var operator rune
+	var firstOperatorNegative, firstOperatorFull, isSecondOperatorFull bool
 	if input[0] == '-' {
-		firstOperand, _ = strconv.Atoi(string(input[1]))
-	} else {
-		firstOperand, _ = strconv.Atoi(string(input[0]))
+		firstOperatorNegative = true
 	}
 	input = strings.Trim(input, "-")
-	secondOperand, err = strconv.Atoi(string(input[2]))
-	if err != nil {
+	for _, charCode := range input {
+		switch {
+		case charCode == '+', charCode == '-':
+			if firstOperatorFull {
+				return "", errorNotTwoOperands
+			}
+			if firstOperatorNegative {
+				result = -firstOperand
+			} else {
+				result = firstOperand
+			}
+			operator = charCode
+			firstOperatorFull = true
+		case unicode.IsDigit(charCode):
+			count, err := strconv.Atoi(string(charCode))
+			if err != nil {
+				return "", err
+			}
+			if !firstOperatorFull {
+				firstOperand = firstOperand*10 + count
+			} else {
+				secondOperand = secondOperand*10 + count
+				isSecondOperatorFull = true
+			}
+		}
+	}
+	if !isSecondOperatorFull {
 		return "", errorNotTwoOperands
 	}
-	if input[1] == '+' {
-		return strconv.Itoa(firstOperand + secondOperand), nil
+	if operator == '+' {
+		return strconv.Itoa(result + secondOperand), nil
 	} else {
-		return strconv.Itoa(firstOperand - secondOperand), nil
+		return strconv.Itoa(result - secondOperand), nil
 	}
 }
