@@ -66,7 +66,7 @@ func StringSum(inp string) (output string, err error) {
 		}
 	}
 	if !isSecondOperatorFull {
-		return "", fmt.Errorf("received less two operands, %w", errorEmptyInput)
+		return "", fmt.Errorf("received less two operands, %w", errorNotTwoOperands)
 	}
 	if operator == '+' {
 		return strconv.Itoa(result + secondOperand), nil
