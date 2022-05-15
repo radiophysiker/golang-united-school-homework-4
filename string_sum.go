@@ -22,6 +22,25 @@ var (
 //
 // Use the errors defined above as described, again wrapping into fmt.Errorf
 
-func StringSum(input string) (output string, err error) {
-	return "", nil
+func StringSum(inp string) (output string, err error) {
+	input := strings.Trim(inp, " ")
+	if input == "" {
+		return "", errorEmptyInput
+	}
+	var firstOperand, secondOperand int
+	if input[0] == '-' {
+		firstOperand, _ = strconv.Atoi(string(input[1]))
+	} else {
+		firstOperand, _ = strconv.Atoi(string(input[0]))
+	}
+	input = strings.Trim(input, "-")
+	secondOperand, err = strconv.Atoi(string(input[2]))
+	if err != nil {
+		return "", errorNotTwoOperands
+	}
+	if input[1] == '+' {
+		return strconv.Itoa(firstOperand + secondOperand), nil
+	} else {
+		return strconv.Itoa(firstOperand - secondOperand), nil
+	}
 }
