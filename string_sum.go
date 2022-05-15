@@ -27,9 +27,9 @@ var (
 // Use the errors defined above as described, again wrapping into fmt.Errorf
 
 func StringSum(inp string) (output string, err error) {
-	input := strings.Trim(inp, " ")
+		input := strings.TrimSpace(inp)
 	if input == "" {
-		return "", fmt.Errorf("received empty", errorEmptyInput)
+		return "", fmt.Errorf("received empty, %w", errorEmptyInput)
 	}
 	var firstOperand, secondOperand, result int
 	var operator rune
@@ -42,7 +42,7 @@ func StringSum(inp string) (output string, err error) {
 		switch {
 		case charCode == '+', charCode == '-':
 			if firstOperatorFull {
-				return "", fmt.Errorf("пустая строка", errorNotTwoOperands)
+				return "", fmt.Errorf("пустая строка, %w", errorNotTwoOperands)
 			}
 			if firstOperatorNegative {
 				result = -firstOperand
@@ -65,7 +65,7 @@ func StringSum(inp string) (output string, err error) {
 		}
 	}
 	if !isSecondOperatorFull {
-		return "", fmt.Errorf("received less two operands", errorEmptyInput)
+		return "", fmt.Errorf("received less two operands, %w", errorEmptyInput)
 	}
 	if operator == '+' {
 		return strconv.Itoa(result + secondOperand), nil
