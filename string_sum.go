@@ -27,7 +27,7 @@ var (
 // Use the errors defined above as described, again wrapping into fmt.Errorf
 
 func StringSum(inp string) (output string, err error) {
-		input := strings.TrimSpace(inp)
+	input := strings.TrimSpace(inp)
 	if input == "" {
 		return "", fmt.Errorf("received empty, %w", errorEmptyInput)
 	}
@@ -51,10 +51,10 @@ func StringSum(inp string) (output string, err error) {
 			}
 			operator = charCode
 			firstOperatorFull = true
-		case unicode.IsDigit(charCode):
+		default:
 			count, err := strconv.Atoi(string(charCode))
 			if err != nil {
-				return "", err
+				return "", fmt.Errorf("bad token, %w", err)
 			}
 			if !firstOperatorFull {
 				firstOperand = firstOperand*10 + count
