@@ -26,7 +26,7 @@ var (
 // Use the errors defined above as described, again wrapping into fmt.Errorf
 
 func StringSum(inp string) (output string, err error) {
-	input := strings.TrimSpace(inp)
+	input := strings.Trim(inp, " ")
 	if input == "" {
 		return "", fmt.Errorf("received empty, %w", errorEmptyInput)
 	}
