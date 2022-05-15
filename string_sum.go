@@ -2,6 +2,7 @@ package string_sum
 
 import (
 	"errors"
+	"fmt"
 	"strconv"
 	"strings"
 	"unicode"
@@ -28,7 +29,7 @@ var (
 func StringSum(inp string) (output string, err error) {
 	input := strings.Trim(inp, " ")
 	if input == "" {
-		return "", errorEmptyInput
+		return "", fmt.Errorf("received empty", errorEmptyInput)
 	}
 	var firstOperand, secondOperand, result int
 	var operator rune
@@ -41,7 +42,7 @@ func StringSum(inp string) (output string, err error) {
 		switch {
 		case charCode == '+', charCode == '-':
 			if firstOperatorFull {
-				return "", errorNotTwoOperands
+				return "", fmt.Errorf("пустая строка", errorNotTwoOperands)
 			}
 			if firstOperatorNegative {
 				result = -firstOperand
@@ -64,7 +65,7 @@ func StringSum(inp string) (output string, err error) {
 		}
 	}
 	if !isSecondOperatorFull {
-		return "", errorNotTwoOperands
+		return "", fmt.Errorf("received less two operands", errorEmptyInput)
 	}
 	if operator == '+' {
 		return strconv.Itoa(result + secondOperand), nil
